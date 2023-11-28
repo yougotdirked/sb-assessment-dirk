@@ -1,10 +1,10 @@
-'use client'
-import { FormEvent } from 'react'
+"use client";
+import { FormEvent } from "react";
 
 export default function Form() {
     const onSubmitBehaviour = (event: FormEvent<HTMLFormElement>) => {
         //event.preventDefault();
-    }
+    };
 
     return (
         <div className="col-span-5 max-w-[451px]">
@@ -34,5 +34,5 @@ export default function Form() {
                 </button>
             </form>
         </div>
-    )
+    );
 }

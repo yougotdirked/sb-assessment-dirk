@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import { IPost } from '@/models'
-import { useEffect, useState } from 'react'
-import { IPostsGetRequest } from '@/pages/api/posts'
-import Card from './card'
-import Paginator from './paginator'
+import { IPost } from "@/models";
+import { useEffect, useState } from "react";
+import { IPostsGetRequest } from "@/pages/api/posts";
+import Card from "./card";
+import Paginator from "./paginator";
 
 export interface ICardDeckProps {
-    cards?: IPost[]
-    pagination?: boolean
-    currentPage?: number
-    backgroundColor?: string
-    initialQuery: IPostsGetRequest
-    colSpan?: number
-    cols?: number
+    cards?: IPost[];
+    pagination?: boolean;
+    currentPage?: number;
+    backgroundColor?: string;
+    initialQuery: IPostsGetRequest;
+    colSpan?: number;
+    cols?: number;
 }
 
 export default function CardDeck({
@@ -23,9 +23,9 @@ export default function CardDeck({
     initialQuery,
     cols = 2,
 }: ICardDeckProps) {
-    const [posts, setPosts] = useState<IPost[]>([])
-    const [params, setParams] = useState<IPostsGetRequest>(initialQuery)
-    const [lastPage, setLastPage] = useState<number>()
+    const [posts, setPosts] = useState<IPost[]>([]);
+    const [params, setParams] = useState<IPostsGetRequest>(initialQuery);
+    const [lastPage, setLastPage] = useState<number>();
 
     const getPosts = () => {
         const {
@@ -35,47 +35,47 @@ export default function CardDeck({
             sortDirection,
             searchPhrase,
             categoryId,
-        }: IPostsGetRequest = params
-        console.log(params)
-        const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`
-        fetch('api/posts' + queryString, {
-            method: 'GET',
+        }: IPostsGetRequest = params;
+        console.log(params);
+        const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`;
+        fetch("api/posts" + queryString, {
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         })
             .then((response) => response.json())
             .then((result) => {
-                updateList(result.data)
-                setLastPage(result.last_page)
-            })
-    }
+                updateList(result.data);
+                setLastPage(result.last_page);
+            });
+    };
 
     useEffect(() => {
-        getPosts()
-    }, [])
+        getPosts();
+    }, []);
 
     const setPage = (newPage: number) => {
-        let newParams = params
-        newParams.page = newPage
-        setParams(newParams)
-        getPosts()
-    }
+        let newParams = params;
+        newParams.page = newPage;
+        setParams(newParams);
+        getPosts();
+    };
 
     const updateList = (newPosts: IPost[]) => {
         if (!pagination) {
-            const newPostList = [...posts, ...newPosts]
-            setPosts(newPostList)
+            const newPostList = [...posts, ...newPosts];
+            setPosts(newPostList);
         } else {
-            setPosts(newPosts)
+            setPosts(newPosts);
         }
-    }
+    };
 
     return (
         <div className={`col-span-${colSpan} auto-cols-max`}>
             <div
                 className={`${
-                    backgroundColor ? `bg-${backgroundColor}` : ''
+                    backgroundColor ? `bg-${backgroundColor}` : ""
                 } p-[24px]`}
             >
                 <div className="flex">
@@ -108,5 +108,5 @@ export default function CardDeck({
                 )}
             </div>
         </div>
-    )
+    );
 }

@@ -1,15 +1,15 @@
-import CardDeck from '@/components/cardDeck'
-import Form from '@/components/form'
-import { IPostsGetRequest } from '@/pages/api/posts'
+import CardDeck from "@/components/cardDeck";
+import Form from "@/components/form";
+import { IPostsGetRequest } from "@/pages/api/posts";
 
 const initialQuery: IPostsGetRequest = {
     page: 1,
     perPage: 4,
-    sortBy: 'title',
-    sortDirection: 'asc',
-    searchPhrase: '',
+    sortBy: "title",
+    sortDirection: "asc",
+    searchPhrase: "",
     categoryId: 1,
-}
+};
 
 export default async function Home() {
     return (
@@ -23,5 +23,5 @@ export default async function Home() {
                 pagination={false}
             />
         </div>
-    )
+    );
 }

@@ -1,18 +1,21 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function NavBar() {
-    const [activeButton, setActiveButton] = useState<'home' | 'blog'>()
+    const [activeButton, setActiveButton] = useState<'home' | 'blog'>();
+
+    const router = useRouter();
 
     useEffect(() => {
         if (window.location.pathname === '/blog') {
-            setActiveButton('blog')
+            setActiveButton('blog');
         } else {
-            setActiveButton('home')
+            setActiveButton('home');
         }
-    }, [])
+    }, []);
 
     return (
         <ol
@@ -28,7 +31,7 @@ export default function NavBar() {
             >
                 <Link
                     onClick={() => {
-                        setActiveButton('home')
+                        setActiveButton('home');
                     }}
                     href={'/'}
                 >
@@ -43,7 +46,7 @@ export default function NavBar() {
             >
                 <Link
                     onClick={() => {
-                        setActiveButton('blog')
+                        setActiveButton('blog');
                     }}
                     href={'blog'}
                 >
@@ -51,5 +54,5 @@ export default function NavBar() {
                 </Link>
             </li>
         </ol>
-    )
+    );
 }

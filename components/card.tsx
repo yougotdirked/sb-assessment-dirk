@@ -1,15 +1,15 @@
-import { IPost } from '@/models'
-import Image from 'next/image'
+import { IPost } from '@/models';
+import Image from 'next/image';
 
-const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL
+const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
 
 export interface ICardProps {
-    post: IPost
+    post: IPost;
 }
 
 export default function ICard({ post }: ICardProps) {
     return (
-        <div className="col-span-1 mx-auto w-full h-[217px] shadow-md">
+        <div className="col-span-1 mx-auto w-full h-[217px] shadow-md overflow-hidden">
             <Image
                 height={72}
                 width={285}
@@ -17,10 +17,10 @@ export default function ICard({ post }: ICardProps) {
                 alt={`Image of ${post.title}`}
                 className="max-h-[72px] object-cover"
             />
-            <div className="p-[16px]">
+            <div className="p-[16px] ">
                 <h3 className="mb-[8px]">{post.title}</h3>
                 <p>{post.content}</p>
             </div>
         </div>
-    )
+    );
 }

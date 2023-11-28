@@ -29,7 +29,7 @@ export default function Form() {
                     <label>Bericht</label>
                     <textarea rows={10} />
                 </div>
-                <button className="mx-auto bg-[#F27623]" type="submit">
+                <button className="mx-auto bg-[#F27623] main" type="submit">
                     Bericht aanmaken
                 </button>
             </form>

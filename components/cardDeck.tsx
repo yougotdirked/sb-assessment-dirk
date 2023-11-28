@@ -4,6 +4,7 @@ import { IPost } from '@/models'
 import { useEffect, useState } from 'react'
 import { IPostsGetRequest } from '@/pages/api/posts'
 import Card from './card'
+import Paginator from './paginator'
 
 export interface ICardDeckProps {
     cards?: IPost[]
@@ -52,12 +53,11 @@ export default function CardDeck({
 
     useEffect(() => {
         getPosts()
-    }, [params])
+    }, [])
 
-    const loadMore = () => {
-        console.log(params)
+    const setPage = (newPage: number) => {
         let newParams = params
-        newParams.page += 1
+        newParams.page = newPage
         setParams(newParams)
         getPosts()
     }
@@ -90,15 +90,21 @@ export default function CardDeck({
                         <button
                             disabled={params.page === lastPage}
                             type="button"
-                            onClick={loadMore}
-                            className="mx-auto bg-[#F27623] mt-[114px]"
+                            onClick={() => setPage(params.page + 1)}
+                            className="main mx-auto bg-[#F27623] mt-[114px]"
                         >
                             Laad meer
                         </button>
                     </div>
                 )}
                 {pagination && (
-                    <div className={'mx-auto mt-auto'}>paginator here</div>
+                    <div className="flex mt-[24px]">
+                        <Paginator
+                            currentPage={params.page}
+                            lastPage={lastPage}
+                            setPage={setPage}
+                        />
+                    </div>
                 )}
             </div>
         </div>

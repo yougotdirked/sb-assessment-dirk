@@ -3,6 +3,7 @@
 import { IPost } from '@/models'
 import { useEffect, useState } from 'react'
 import { IPostsGetRequest } from '@/pages/api/posts'
+import Card from './card'
 
 export interface ICardDeckProps {
     cards?: IPost[]
@@ -23,7 +24,6 @@ export default function CardDeck({
     const [params, setparams] = useState<IPostsGetRequest>(initialQuery)
 
     useEffect(() => {
-        console.log(JSON.stringify(params))
         const {
             page,
             perPage,
@@ -41,24 +41,36 @@ export default function CardDeck({
         })
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+              setPosts(result.data);
             })
-    })
+    }, [])
 
     return (
+      <div className={`${gridCols ? 'col-span-7' : 'col-span-full'}`}>
         <div
             className={`${
                 backgroundColor && `bg-${backgroundColor}`
-            } p-[24px] flex ${gridCols ? 'col-span-7' : 'col-span-full'}`}
+            } p-[24px]`}
         >
+          <div className='flex'>
+            <div className="grid grid-cols-2 grow gap-[24px]">
+            {
+              posts.map((post, index) => 
+                <Card post={post} key={index}/>)
+            }
+            </div>
+          </div>
             {!pagination && (
-                <button className="mx-auto bg-[#F27623] mt-auto">
+              <div className='flex'>
+                <button className="mx-auto bg-[#F27623] mt-[114px]">
                     Laad meer
                 </button>
+              </div>
             )}
             {pagination && (
-                <div className={'mx-auto mt-auto mb-'}>paginator here</div>
+                <div className={'mx-auto mt-auto'}>paginator here</div>
             )}
         </div>
+      </div>
     )
 }

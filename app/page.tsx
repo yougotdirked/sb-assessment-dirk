@@ -18,7 +18,7 @@ export default async function Home() {
             <Form />
             <CardDeck
                 initialQuery={initialQuery}
-                gridCols={7}
+                colSpan={7}
                 backgroundColor="white"
                 pagination={false}
             />

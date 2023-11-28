@@ -93,6 +93,11 @@ button {
   transition: .17s;
 }
 
+button:disabled {
+  background-color: #868686;
+  cursor: auto;
+}
+
 button:hover {
   text-decoration: underline;
   background-color: #E95E30;

@@ -1,5 +1,5 @@
-import { IPost } from '@/models';
-import Image from 'next/image';
+import { IPost } from "@/models";
+import Image from "next/image";
 
 const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
 

@@ -1,4 +1,8 @@
+'use client'
+
 import { IPost } from '@/models'
+import { useEffect, useState } from 'react'
+import { IPostsGetRequest } from '@/pages/api/posts'
 
 export interface ICardDeckProps {
     cards?: IPost[]
@@ -6,15 +10,41 @@ export interface ICardDeckProps {
     gridCols?: number
     currentPage?: number
     backgroundColor?: string
+    initialQuery: IPostsGetRequest
 }
 
 export default function CardDeck({
-    cards = [],
     pagination = false,
     gridCols,
     backgroundColor,
-    currentPage = 0,
+    initialQuery,
 }: ICardDeckProps) {
+    const [posts, setPosts] = useState<IPost[]>([])
+    const [params, setparams] = useState<IPostsGetRequest>(initialQuery)
+
+    useEffect(() => {
+        console.log(JSON.stringify(params))
+        const {
+            page,
+            perPage,
+            sortBy,
+            sortDirection,
+            searchPhrase,
+            categoryId,
+        }: IPostsGetRequest = params
+        const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`
+        fetch('api/posts' + queryString, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+            })
+    })
+
     return (
         <div
             className={`${

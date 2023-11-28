@@ -8,7 +8,7 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -18,10 +18,75 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #FAFAFA
+}
+
+h1 {
+  display: none;
+  height: 0px;
+  width: 0px;
+}
+
+h2 {
+  color: #2B2B2B;
+  font-size: 24px;
+  font-weight: bold;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 13px;
+  margin-bottom: 6px;
+}
+
+input, textarea {
+  letter-spacing: auto;
+  line-height: normal;
+  padding: 16px;
+  font-size: 12px;
+  color: #C5C5C5;
+  background-color: #FAFAFA;
+  transition: .23s;
+  transition-property: outline;
+}
+
+input:focus-visible, textarea:focus-visible {
+  outline: solid  #F27623;
+  box-shadow: 0px 7px 10px gray;
+}
+
+form {
+  gap: 24px;
+}
+
+a {
+  font-size: 18px;
+}
+
+button {
+  height: 39px;
+  padding-left: 48px;
+  padding-right: 48px;
+  border-radius: 20px;
+  background-color: #F27623;
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  transition: .17s;
+}
+
+button:hover {
+  text-decoration: underline;
+  background-color: #E95E30;
+}
+
+button:active {
+  background-color: #FAFAFA;
+}
+
+button:focus-visible {
+  outline: 4px solid black;
+  text-decoration: underline;
 }

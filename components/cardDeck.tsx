@@ -36,7 +36,6 @@ export default function CardDeck({
             searchPhrase,
             categoryId,
         }: IPostsGetRequest = params;
-        console.log(params);
         const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`;
         fetch("api/posts" + queryString, {
             method: "GET",

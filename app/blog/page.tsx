@@ -1,14 +1,14 @@
-import CardDeck from '@/components/cardDeck'
-import { IPostsGetRequest } from '@/pages/api/posts'
+import CardDeck from "@/components/cardDeck";
+import { IPostsGetRequest } from "@/pages/api/posts";
 
 const initialQuery: IPostsGetRequest = {
     page: 1,
     perPage: 8,
-    sortBy: 'title',
-    sortDirection: 'asc',
-    searchPhrase: '',
+    sortBy: "title",
+    sortDirection: "asc",
+    searchPhrase: "",
     categoryId: 1,
-}
+};
 
 export default function Blog() {
     return (
@@ -16,5 +16,5 @@ export default function Blog() {
             <h1>Blog</h1>
             <CardDeck cols={4} initialQuery={initialQuery} pagination={true} />
         </div>
-    )
+    );
 }

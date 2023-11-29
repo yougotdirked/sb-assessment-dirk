@@ -57,18 +57,22 @@ label {
   margin-bottom: 6px;
 }
 
-input, textarea {
+input, textarea, select {
   letter-spacing: auto;
   line-height: normal;
   padding: 16px;
   font-size: 12px;
-  color: #C5C5C5;
+  color: #262626;
   background-color: #FAFAFA;
   transition: .23s;
   transition-property: outline;
 }
 
-input:focus-visible, textarea:focus-visible {
+select {
+  color: #262626;
+}
+
+input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: solid  #F27623;
   box-shadow: 0px 7px 10px gray;
 }

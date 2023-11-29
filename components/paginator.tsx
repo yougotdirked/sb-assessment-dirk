@@ -9,7 +9,7 @@ export interface IPaginatorProps {
 
 export default function Paginator({
     currentPage,
-    lastPage = 1,
+    lastPage,
     setPage,
 }: IPaginatorProps) {
     const [availablePageNumbers, setAvailablePageNumbers] = useState<number[]>(
@@ -20,9 +20,12 @@ export default function Paginator({
 
     useEffect(() => {
         //check which pages should be added to the buttons on the bottom of the page
-        let startIndex = currentPage - 2 > 0 ? currentPage - 2 : 1; //if
-        if (currentPage + 2 > lastPage) {
-            startIndex -= 2 - (lastPage - currentPage);
+        let startIndex = 1;
+        if (lastPage) {
+            startIndex = currentPage - 2 > 0 ? currentPage - 2 : 1; //if
+            if (currentPage + 2 > lastPage) {
+                startIndex -= 2 - (lastPage - currentPage);
+            }
         }
         const numbers: number[] = [];
         for (let index = startIndex; index < startIndex + 5; index++) {
@@ -30,6 +33,7 @@ export default function Paginator({
         }
         setAvailablePageNumbers(numbers);
 
+        //add first pages and last pages to selectable pages:
         const newSuffixPages: number[] = [];
         const newPrefixPages: number[] = [];
 
@@ -43,7 +47,7 @@ export default function Paginator({
             numbers.indexOf(lastPage) === -1 && newSuffixPages.push(lastPage);
             setSuffixPages(newSuffixPages);
         }
-    }, [currentPage]);
+    }, [currentPage, lastPage]);
 
     return (
         <div className="mx-auto">
@@ -60,7 +64,7 @@ export default function Paginator({
                                 />
                             );
                         })}
-                        {prefixPages.length > 1 && (
+                        {prefixPages.length > 1 && currentPage > 5 && (
                             <li className="m-auto text-[#383838]">...</li>
                         )}
                     </>
@@ -78,9 +82,10 @@ export default function Paginator({
 
                 {suffixPages && suffixPages.length > 0 && (
                     <>
-                        {suffixPages.length > 1 && (
-                            <li className="m-auto text-[#383838]">...</li>
-                        )}
+                        {suffixPages.length > 1 &&
+                            suffixPages[0] - currentPage > 3 && (
+                                <li className="m-auto text-[#383838]">...</li>
+                            )}
                         {suffixPages.map((pageNumber, index) => {
                             return (
                                 <PaginatorButton

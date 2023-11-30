@@ -1,18 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 const baseUrl = process.env.BASE_URL;
 const token = process.env.TOKEN;
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
+export async function GET(req: NextRequest) {
     try {
         if (!baseUrl || !token) {
             throw new Error("Configuration error");
-        }
-        if (req.method !== "GET") {
-            res.status(405).statusMessage = "Method not allowed";
         }
         const response = await fetch(baseUrl + "/api/categories", {
             method: "GET",
@@ -23,7 +17,7 @@ export default async function handler(
         });
         if (response.status === 200) {
             const result = await response.json();
-            res.status(200).json(result);
+            return NextResponse.json(result, { status: 200 });
         } else {
             console.error(`--- Social Brothers server repsonse: --- 
           ${response.status}: ${response.statusText}`);
@@ -32,8 +26,10 @@ export default async function handler(
     } catch (error: any) {
         if (error.message) {
             console.error(error.message);
-            res.statusMessage = error.message;
+            return NextResponse.json(
+                { message: error.message },
+                { status: 400 }
+            );
         }
-        res.status(400);
     }
 }

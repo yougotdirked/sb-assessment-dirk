@@ -1,12 +1,12 @@
 import CardDeck from "@/components/cardDeck";
 import Form from "@/components/form";
-import { IPostsGetRequest } from "@/pages/api/posts";
+import { IPostsGetRequest } from "@/app/api/posts/route";
 
 const initialQuery: IPostsGetRequest = {
     page: 1,
     perPage: 4,
     sortBy: "title",
-    sortDirection: "asc",
+    sortDirection: "desc",
     searchPhrase: "",
     categoryId: 1,
 };

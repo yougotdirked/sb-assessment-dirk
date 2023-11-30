@@ -1,5 +1,5 @@
 import CardDeck from "@/components/cardDeck";
-import { IPostsGetRequest } from "@/pages/api/posts";
+import { IPostsGetRequest } from "@/app/api/posts/route";
 
 const initialQuery: IPostsGetRequest = {
     page: 1,

@@ -2,7 +2,7 @@
 
 import { IPost } from "@/models";
 import { useEffect, useState } from "react";
-import { IPostsGetRequest } from "@/pages/api/posts";
+import { IPostsGetRequest } from "@/app/api/posts/route";
 import Card from "./card";
 import Paginator from "./paginator";
 
@@ -62,6 +62,7 @@ export default function CardDeck({
     };
 
     const updateList = (newPosts: IPost[]) => {
+        if (!newPosts || newPosts.length === 0) return;
         if (!pagination) {
             const newPostList = [...posts, ...newPosts];
             setPosts(newPostList);

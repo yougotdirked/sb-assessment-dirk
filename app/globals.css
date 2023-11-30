@@ -112,6 +112,7 @@ button.main:active {
 }
 
 button:focus-visible {
-  outline: 4px solid black;
+  outline: 4px solid #E95E30;
+  outline-offset: 3px;
   text-decoration: underline;
 }

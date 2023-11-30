@@ -24,20 +24,7 @@ export default function RootLayout({
                             "bg-gray-500 h-[208px] bg-header bg-no-repeat bg-center"
                         }
                     >
-                        <div className={"pt-[32px] max-w-[1116px] m-auto flex"}>
-                            <Link
-                                aria-description="navigeer naar home"
-                                href="/"
-                            >
-                                <Image
-                                    src={"./logo.svg"}
-                                    alt="Social Brothers Logo"
-                                    width={240}
-                                    height={57}
-                                ></Image>
-                            </Link>
-                            <NavBar />
-                        </div>
+                        <NavBar />
                     </nav>
                 </header>
                 <main className={"flex min-h-screen"}>{children}</main>

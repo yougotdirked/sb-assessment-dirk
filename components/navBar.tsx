@@ -19,7 +19,11 @@ export default function NavBar() {
     }, []);
 
     return (
-        <div className={"pt-[32px] max-w-[1116px] m-auto flex"}>
+        <div
+            className={
+                "pt-[32px] max-w-[1116px] m-auto flex flex-col sm:flex-row w-[97vw]"
+            }
+        >
             <Link
                 aria-description="navigeer naar home"
                 href="/"
@@ -36,7 +40,7 @@ export default function NavBar() {
             </Link>
             <ol
                 className={
-                    "text-white ml-auto flex gap-6 font-semibold max-h-[30px]"
+                    "text-white sm:ml-auto sm:mr-0 sm:mt-0 flex gap-6 font-semibold max-h-[30px] sm:mx-auto mx-auto mt-[32px]"
                 }
             >
                 <li

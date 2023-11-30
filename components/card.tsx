@@ -9,7 +9,7 @@ export interface ICardProps {
 
 export default function ICard({ post }: ICardProps) {
     return (
-        <div className="col-span-1 mx-auto w-full h-[217px] shadow-md overflow-hidden">
+        <div className="col-span-1 mx-auto sm:w-full h-[217px] shadow-md overflow-hidden">
             <Image
                 height={72}
                 width={285}

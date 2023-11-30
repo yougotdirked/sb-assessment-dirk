@@ -85,7 +85,7 @@ export default function Form() {
     };
 
     return (
-        <div className="col-span-5 max-w-[451px]">
+        <div className="col-span-5 sm:max-w-[451px]">
             <form
                 id="create-post-form"
                 onSubmit={onSubmitBehaviour}

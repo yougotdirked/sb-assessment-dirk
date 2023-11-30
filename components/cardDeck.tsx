@@ -11,7 +11,7 @@ export interface ICardDeckProps {
     pagination?: boolean;
     currentPage?: number;
     backgroundColor?: string;
-    initialQuery: IPostsGetRequest;
+    query: IPostsGetRequest;
     colSpan?: number;
     cols?: number;
 }
@@ -20,11 +20,11 @@ export default function CardDeck({
     pagination = false,
     colSpan = 12,
     backgroundColor,
-    initialQuery,
+    query,
     cols = 2,
 }: ICardDeckProps) {
     const [posts, setPosts] = useState<IPost[]>([]);
-    const [params, setParams] = useState<IPostsGetRequest>(initialQuery);
+    const [params, setParams] = useState<IPostsGetRequest>(query);
     const [lastPage, setLastPage] = useState<number>();
 
     const getPosts = () => {
@@ -52,7 +52,7 @@ export default function CardDeck({
 
     useEffect(() => {
         getPosts();
-    }, []);
+    }, [query]);
 
     const setPage = (newPage: number) => {
         let newParams = params;
@@ -79,7 +79,12 @@ export default function CardDeck({
                 } p-[24px]`}
             >
                 <div className="flex">
-                    <div className={`grid grid-cols-${cols} grow gap-[24px]`}>
+                    <div
+                        className={`grid ${
+                            cols > 2 &&
+                            "md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2"
+                        } sm:grid-cols-${cols}  grow gap-[24px] `}
+                    >
                         {posts.map((post, index) => (
                             <Card post={post} key={index} />
                         ))}

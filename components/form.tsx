@@ -4,14 +4,14 @@ import { FormEvent, useEffect, useState } from "react";
 
 export interface IFormData {
     title: string;
-    category_id: string;
+    category_id: string | null;
     image: File | null;
     content: string;
 }
 
 const emptyForm: IFormData = {
     title: "",
-    category_id: "",
+    category_id: null,
     image: null,
     content: "",
 };
@@ -114,12 +114,12 @@ export default function Form() {
                         }
                         placeholder="Geen categorie"
                         className={`${
-                            !submitEnabled && formData.category_id
+                            !submitEnabled && formData.category_id !== ""
                                 ? "outline  outline-red-600"
                                 : ""
                         }`}
                     >
-                        <option className={"text-[#C5C5C5]"} value={-1}>
+                        <option className={"text-[#C5C5C5]"} value={""}>
                             Geen categorie
                         </option>
                         {categories.map((catgegory, index) => {

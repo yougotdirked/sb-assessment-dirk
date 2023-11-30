@@ -100,8 +100,9 @@ export default function Paginator({
                 )}
                 <li className="m-auto">
                     <button
+                        disabled={currentPage === lastPage}
                         onClick={() => setPage(currentPage + 1)}
-                        className="hover:underline hover:text-[#E95E30] text-[#F27623] ml-[18px]"
+                        className="hover:underline hover:text-[#E95E30] text-[#F27623] ml-[18px] disabled:text-[#868686] disabled:hover:no-underline"
                     >
                         Volgende pagina
                     </button>

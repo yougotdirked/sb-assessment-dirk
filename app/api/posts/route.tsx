@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const baseUrl = process.env.BASE_URL;
@@ -52,43 +51,40 @@ export async function POST(req: NextRequest) {
         if (!baseUrl || !token) {
             throw new Error("Configuration error");
         }
-        const formData = await req.formData();
-        const image = formData.get("image") as File;
-        formData.append("image", image, image.name);
+
+        const data = await req.formData();
 
         const response = await fetch(baseUrl + "/api/posts", {
             method: "POST",
             headers: {
-                "Content-Type": "multipart/form-data",
                 token: token!,
-                ...req.headers,
             },
-            body: formData,
+            body: data,
         });
+
         if (response.status === 200 || response.status === 201) {
             const result = await response.json();
-            console.log(result);
-            return NextResponse.json({ status: 200 });
+            return NextResponse.json(result, { status: 200 });
         } else {
             throw new Error(
                 `remote server (${response.status}) : ${response.statusText}`
             );
         }
     } catch (error: any) {
-        return serverError(error);
+        return serverError("nodejs: " + error);
     }
 }
 
 const serverError = (error: any) => {
     if (error.message) {
         console.error("error: " + error.message);
-        return NextResponse.json(
-            {
-                message: error.message,
-            },
-            {
-                status: 400,
-            }
-        );
     }
+    return NextResponse.json(
+        {
+            message: error.message ? error.message : "empty",
+        },
+        {
+            status: 400,
+        }
+    );
 };

@@ -18,7 +18,9 @@ export default function PaginatorButton({
             }`}
             onClick={() => setPage(pageNumber)}
         >
-            <button className={"px-[6px] py-[3px]"}>{pageNumber}</button>
+            <button className={`${!active ? "px-[6px] py-[3px]" : ""}`}>
+                {pageNumber}
+            </button>
         </li>
     );
 }

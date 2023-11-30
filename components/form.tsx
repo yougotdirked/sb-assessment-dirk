@@ -1,6 +1,8 @@
 "use client";
 import { ICategory } from "@/models";
 import { FormEvent, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-regular-svg-icons";
 
 export interface IFormData {
     title: string;
@@ -90,8 +92,8 @@ export default function Form() {
                 className="bg-white p-[24px] flex flex-col"
             >
                 <h2>Plaats een blog bericht</h2>
-                <div className="min-h-62px flex flex-col">
-                    <label>Berichtnaam</label>
+                <label>
+                    <span className="mb-[6px]">Berichtnaam</span>
                     <input
                         name="title"
                         onChange={(e) =>
@@ -104,17 +106,19 @@ export default function Form() {
                                 : ""
                         }`}
                     />
-                </div>
-                <div className="min-h-62px flex flex-col">
-                    <label>Categorie</label>
+                </label>
+                <label>
+                    <span className="mb-[6px]">Categorie</span>
                     <select
                         name="category_id"
                         onChange={(e) =>
-                            handleFormChange({ category_id: e.target.value })
+                            handleFormChange({
+                                category_id: e.target.value,
+                            })
                         }
                         placeholder="Geen categorie"
                         className={`${
-                            !submitEnabled && formData.category_id !== ""
+                            !submitEnabled && !formData.category_id
                                 ? "outline  outline-red-600"
                                 : ""
                         }`}
@@ -134,28 +138,56 @@ export default function Form() {
                             );
                         })}
                     </select>
-                </div>
-                <div className="min-h-62px flex flex-col">
-                    <label>Header afbeelding</label>
-                    <input
-                        name="image"
-                        onChange={(e) =>
-                            e.target.files &&
-                            handleFormChange({
-                                image: e.target.files[0],
-                            })
-                        }
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        className={`${
-                            !submitEnabled && !formData.image
-                                ? "outline  outline-red-600"
-                                : ""
-                        }`}
-                    />
-                </div>
-                <div className="min-h-62px flex flex-col">
-                    <label>Bericht</label>
+                </label>
+                <label className="w-auto flex" htmlFor="file-upload">
+                    <span className="mb-[6px]">Header afbeelding</span>
+                    <div className="flex">
+                        <button
+                            role="Open fileupload"
+                            onClick={() => {
+                                document.getElementById("file-upload")!.click();
+                            }}
+                            type="button"
+                            tabIndex={0}
+                            className={`h-[39px] flex grow-1 customUploader focus-visible:outline-offset-0 focus-visible:no-underline ${
+                                !submitEnabled && !formData.image
+                                    ? "outline  outline-red-600"
+                                    : ""
+                            }`}
+                        >
+                            <FontAwesomeIcon
+                                color="#7D7D7D"
+                                className="my-auto"
+                                icon={faImage}
+                            />
+                            <div className="rounded-full bg-[#7D7D7D] px-[12px] py-[4px] my-auto ml-[16px] text-[10px] text-[#FFFFFF]">
+                                Kies bestand
+                            </div>
+                        </button>
+                        <input
+                            id="file-upload"
+                            name="image"
+                            onChange={(e) =>
+                                e.target.files &&
+                                handleFormChange({
+                                    image: e.target.files[0],
+                                })
+                            }
+                            type="file"
+                            accept="image/png, image/jpeg"
+                            className={`${
+                                !submitEnabled && !formData.image
+                                    ? "outline  outline-red-600"
+                                    : ""
+                            }`}
+                        />
+                        <span className="my-auto ml-[12px]">
+                            {formData.image?.name}
+                        </span>
+                    </div>
+                </label>
+                <label>
+                    <span className="mb-[6px]">Bericht</span>
                     <textarea
                         name="content"
                         onChange={(e) =>
@@ -168,7 +200,7 @@ export default function Form() {
                         }`}
                         rows={10}
                     />
-                </div>
+                </label>
                 <button className="mx-auto bg-[#F27623] main" type="submit">
                     Bericht aanmaken
                 </button>

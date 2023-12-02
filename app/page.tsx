@@ -37,10 +37,10 @@ export default function Home() {
                 <>
                     <Form />
                     <CardDeck
-                        query={initialQuery}
                         colSpan={7}
                         backgroundColor="white"
                         pagination={false}
+                        itemsPerPage={4}
                     />
                 </>
             </PageContextProvider>

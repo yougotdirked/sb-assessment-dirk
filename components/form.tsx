@@ -119,11 +119,12 @@ export default function Form() {
                                 category_id: e.target.value,
                             });
 
-                            postsContext.setPageQuery({
-                                ...postsContext.pageQuery,
-                                categoryId: Number.parseInt(e.target.value),
-                                page: 1,
-                            });
+                            e.target.value !== "" &&
+                                postsContext.setPageQuery({
+                                    ...postsContext.pageQuery,
+                                    categoryId: Number.parseInt(e.target.value),
+                                    page: 1,
+                                });
                         }}
                         placeholder="Geen categorie"
                         className={`${

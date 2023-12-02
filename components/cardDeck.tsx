@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { IPostsGetRequest } from "@/app/api/posts/route";
 import Card from "./card";
 import Paginator from "./paginator";
-import { PageContextProvider } from "./pageContextProvider";
 import { PostsContext } from "@/app/page";
 
 export interface ICardDeckProps {
@@ -13,17 +12,17 @@ export interface ICardDeckProps {
     pagination?: boolean;
     currentPage?: number;
     backgroundColor?: string;
-    query: IPostsGetRequest;
     colSpan?: number;
     cols?: number;
+    itemsPerPage: number;
 }
 
 export default function CardDeck({
     pagination = false,
     colSpan = 12,
     backgroundColor,
-    query,
     cols = 2,
+    itemsPerPage = 8,
 }: ICardDeckProps) {
     const postsContext = useContext(PostsContext);
     const [posts, setPosts] = useState<IPost[]>([]);
@@ -37,7 +36,10 @@ export default function CardDeck({
             sortDirection,
             searchPhrase,
             categoryId,
-        }: IPostsGetRequest = postsContext.pageQuery;
+        }: IPostsGetRequest = {
+            ...postsContext.pageQuery,
+            perPage: itemsPerPage,
+        };
         const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`;
         fetch("api/posts" + queryString, {
             method: "GET",
@@ -53,7 +55,6 @@ export default function CardDeck({
     };
 
     useEffect(() => {
-        console.log("context changed");
         getPosts();
     }, [postsContext]);
 

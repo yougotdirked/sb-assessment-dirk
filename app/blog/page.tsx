@@ -1,3 +1,5 @@
+"use client";
+
 import CardDeck from "@/components/cardDeck";
 import { IPostsGetRequest } from "@/app/api/posts/route";
 import { PageContextProvider } from "@/components/pageContextProvider";
@@ -29,7 +31,7 @@ export default function Blog() {
                 initialQuery={initialQuery}
                 context={PostsContext}
             >
-                <CardDeck cols={4} query={initialQuery} pagination={true} />
+                <CardDeck cols={4} pagination={true} itemsPerPage={8} />
             </PageContextProvider>
         </div>
     );

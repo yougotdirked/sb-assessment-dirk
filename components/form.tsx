@@ -1,8 +1,9 @@
 "use client";
 import { ICategory } from "@/models";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
+import { PostsContext } from "@/app/page";
 
 export interface IFormData {
     title: string;
@@ -19,6 +20,8 @@ const emptyForm: IFormData = {
 };
 
 export default function Form() {
+    const postsContext = useContext(PostsContext);
+
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [formData, setFormData] = useState<IFormData>(emptyForm);
     const [submitEnabled, setSubmitEnabled] = useState(true);
@@ -111,11 +114,17 @@ export default function Form() {
                     <span className="mb-[6px]">Categorie</span>
                     <select
                         name="category_id"
-                        onChange={(e) =>
+                        onChange={(e) => {
                             handleFormChange({
                                 category_id: e.target.value,
-                            })
-                        }
+                            });
+
+                            postsContext.setPageQuery({
+                                ...postsContext.pageQuery,
+                                categoryId: Number.parseInt(e.target.value),
+                                page: 1,
+                            });
+                        }}
                         placeholder="Geen categorie"
                         className={`${
                             !submitEnabled && !formData.category_id

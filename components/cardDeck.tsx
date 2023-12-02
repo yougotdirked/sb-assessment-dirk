@@ -1,10 +1,12 @@
 "use client";
 
 import { IPost } from "@/models";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IPostsGetRequest } from "@/app/api/posts/route";
 import Card from "./card";
 import Paginator from "./paginator";
+import { PageContextProvider } from "./pageContextProvider";
+import { PostsContext } from "@/app/page";
 
 export interface ICardDeckProps {
     cards?: IPost[];
@@ -23,8 +25,8 @@ export default function CardDeck({
     query,
     cols = 2,
 }: ICardDeckProps) {
+    const postsContext = useContext(PostsContext);
     const [posts, setPosts] = useState<IPost[]>([]);
-    const [params, setParams] = useState<IPostsGetRequest>(query);
     const [lastPage, setLastPage] = useState<number>();
 
     const getPosts = () => {
@@ -35,7 +37,7 @@ export default function CardDeck({
             sortDirection,
             searchPhrase,
             categoryId,
-        }: IPostsGetRequest = params;
+        }: IPostsGetRequest = postsContext.pageQuery;
         const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`;
         fetch("api/posts" + queryString, {
             method: "GET",
@@ -51,22 +53,25 @@ export default function CardDeck({
     };
 
     useEffect(() => {
+        console.log("context changed");
         getPosts();
-    }, [query]);
+    }, [postsContext]);
 
     const setPage = (newPage: number) => {
-        let newParams = params;
+        let newParams = postsContext.pageQuery;
         newParams.page = newPage;
-        setParams(newParams);
+        postsContext.setPageQuery(newParams);
         getPosts();
     };
 
     const updateList = (newPosts: IPost[]) => {
         if (!newPosts || newPosts.length === 0) return;
-        if (!pagination) {
+        if (!pagination && postsContext.pageQuery.page !== 1) {
+            console.log("posts extended");
             const newPostList = [...posts, ...newPosts];
             setPosts(newPostList);
         } else {
+            console.log("posts replaced");
             setPosts(newPosts);
         }
     };
@@ -93,9 +98,14 @@ export default function CardDeck({
                 {!pagination && (
                     <div className="flex">
                         <button
-                            disabled={params.page === lastPage}
+                            disabled={postsContext.pageQuery.page === lastPage}
                             type="button"
-                            onClick={() => setPage(params.page + 1)}
+                            onClick={() =>
+                                postsContext.setPageQuery({
+                                    ...postsContext.pageQuery,
+                                    page: postsContext.pageQuery.page + 1,
+                                })
+                            }
                             className="main mx-auto bg-[#F27623] mt-[114px]"
                         >
                             Laad meer
@@ -105,7 +115,7 @@ export default function CardDeck({
                 {pagination && (
                     <div className="flex mt-[24px]">
                         <Paginator
-                            currentPage={params.page}
+                            currentPage={postsContext.pageQuery.page}
                             lastPage={lastPage}
                             setPage={setPage}
                         />

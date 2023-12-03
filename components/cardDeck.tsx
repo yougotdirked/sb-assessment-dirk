@@ -6,6 +6,7 @@ import { IPostsGetRequest } from "@/app/api/posts/route";
 import Card from "./card";
 import Paginator from "./paginator";
 import { PostsContext } from "@/app/page";
+import SearchBar from "./searchBar";
 
 export interface ICardDeckProps {
     cards?: IPost[];
@@ -58,6 +59,11 @@ export default function CardDeck({
         getPosts();
     }, [postsContext]);
 
+    // const updateQuery = (query: IPostsGetRequest) => {
+    //     postsContext.setPageQuery(query);
+    //     getPosts();
+    // };
+
     const setPage = (newPage: number) => {
         let newParams = postsContext.pageQuery;
         newParams.page = newPage;
@@ -84,6 +90,10 @@ export default function CardDeck({
                     backgroundColor ? `bg-${backgroundColor}` : ""
                 } p-[24px]`}
             >
+                {/* <SearchBar
+                    currentQuery={postsContext.pageQuery}
+                    setQuery={updateQuery}
+                /> */}
                 <div className="flex">
                     <div
                         className={`grid ${

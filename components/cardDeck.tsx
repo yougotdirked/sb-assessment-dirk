@@ -59,10 +59,11 @@ export default function CardDeck({
         getPosts();
     }, [postsContext]);
 
-    // const updateQuery = (query: IPostsGetRequest) => {
-    //     postsContext.setPageQuery(query);
-    //     getPosts();
-    // };
+    const updateQuery = (query: IPostsGetRequest) => {
+        console.log(query);
+        postsContext.setPageQuery(query);
+        getPosts();
+    };
 
     const setPage = (newPage: number) => {
         let newParams = postsContext.pageQuery;
@@ -90,7 +91,9 @@ export default function CardDeck({
                     backgroundColor ? `bg-${backgroundColor}` : ""
                 } p-[24px]`}
             >
-                {/* <SearchBar
+                {/*
+                Commented out because refactoring needed to fix: carddeck on both pages would share the same context which causes unexpected behaviour
+                <SearchBar
                     currentQuery={postsContext.pageQuery}
                     setQuery={updateQuery}
                 /> */}

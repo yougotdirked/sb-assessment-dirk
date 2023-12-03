@@ -1,5 +1,4 @@
 import { IPostsGetRequest } from "@/app/api/posts/route";
-import { PostsContext } from "@/app/page";
 import {
     faMagnifyingGlass,
     faChevronCircleDown,
@@ -17,7 +16,7 @@ export default function SearchBar({ setQuery, currentQuery }: ISearchBarProps) {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setQuery({ ...currentQuery, searchPhrase: search });
+        setQuery({ ...currentQuery, searchPhrase: search, page: 1 });
     };
 
     const flippedDirection = (input: "asc" | "desc") => {
@@ -55,6 +54,7 @@ export default function SearchBar({ setQuery, currentQuery }: ISearchBarProps) {
                             sortDirection: flippedDirection(
                                 currentQuery.sortDirection
                             ),
+                            page: 1,
                         })
                     }
                 >

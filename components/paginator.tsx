@@ -22,31 +22,41 @@ export default function Paginator({
         //check which pages should be added to the buttons on the bottom of the page
         let startIndex = 1;
         if (lastPage) {
-            startIndex = currentPage - 2 > 0 ? currentPage - 2 : 1; //if
+            startIndex = currentPage - 2 > 0 ? currentPage - 2 : 1;
             if (currentPage + 2 > lastPage) {
                 startIndex -= 2 - (lastPage - currentPage);
             }
         }
         const numbers: number[] = [];
-        for (let index = startIndex; index < startIndex + 5; index++) {
-            numbers.push(index);
+
+        if (lastPage && lastPage <= 5) {
+            for (let index = 1; index <= lastPage; index++) {
+                numbers.push(index);
+            }
+            setPrefixPages([]);
+            setSuffixPages([]);
+        } else {
+            for (let index = startIndex; index < startIndex + 5; index++) {
+                if (lastPage && index <= lastPage && index > 0)
+                    numbers.push(index);
+            }
+            //add first pages and last pages to selectable pages:
+            const newSuffixPages: number[] = [];
+            const newPrefixPages: number[] = [];
+
+            numbers.indexOf(1) === -1 && newPrefixPages.push(1);
+            numbers.indexOf(2) === -1 && newPrefixPages.push(2);
+            setPrefixPages(newPrefixPages);
+
+            if (lastPage) {
+                numbers.indexOf(lastPage - 1) === -1 &&
+                    newSuffixPages.push(lastPage - 1);
+                numbers.indexOf(lastPage) === -1 &&
+                    newSuffixPages.push(lastPage);
+                setSuffixPages(newSuffixPages);
+            }
         }
         setAvailablePageNumbers(numbers);
-
-        //add first pages and last pages to selectable pages:
-        const newSuffixPages: number[] = [];
-        const newPrefixPages: number[] = [];
-
-        numbers.indexOf(1) === -1 && newPrefixPages.push(1);
-        numbers.indexOf(2) === -1 && newPrefixPages.push(2);
-        setPrefixPages(newPrefixPages);
-
-        if (lastPage) {
-            numbers.indexOf(lastPage - 1) === -1 &&
-                newSuffixPages.push(lastPage - 1);
-            numbers.indexOf(lastPage) === -1 && newSuffixPages.push(lastPage);
-            setSuffixPages(newSuffixPages);
-        }
     }, [currentPage, lastPage]);
 
     return (

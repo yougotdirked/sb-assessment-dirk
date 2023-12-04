@@ -3,7 +3,7 @@ import { ICategory } from "@/models";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { PostsContext } from "@/app/page";
+import { IPostsGetRequest } from "@/app/api/posts/route";
 
 export interface IFormData {
     title: string;
@@ -19,9 +19,12 @@ const emptyForm: IFormData = {
     content: "",
 };
 
-export default function Form() {
-    const postsContext = useContext(PostsContext);
+export interface IFormProps {
+    query: IPostsGetRequest;
+    setQuery: (query: IPostsGetRequest) => void;
+}
 
+export default function Form({ query, setQuery }: IFormProps) {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [formData, setFormData] = useState<IFormData>(emptyForm);
     const [submitEnabled, setSubmitEnabled] = useState(true);
@@ -120,8 +123,8 @@ export default function Form() {
                             });
 
                             e.target.value !== "" &&
-                                postsContext.setPageQuery({
-                                    ...postsContext.pageQuery,
+                                setQuery({
+                                    ...query,
                                     categoryId: Number.parseInt(e.target.value),
                                     page: 1,
                                 });

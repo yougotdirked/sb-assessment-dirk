@@ -1,11 +1,10 @@
 "use client";
 
 import { IPost } from "@/models";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IPostsGetRequest } from "@/app/api/posts/route";
 import Card from "./card";
 import Paginator from "./paginator";
-import { PostsContext } from "@/app/page";
 import SearchBar from "./searchBar";
 
 export interface ICardDeckProps {
@@ -15,7 +14,8 @@ export interface ICardDeckProps {
     backgroundColor?: string;
     colSpan?: number;
     cols?: number;
-    itemsPerPage: number;
+    query: IPostsGetRequest;
+    setQuery: (query: IPostsGetRequest) => void;
 }
 
 export default function CardDeck({
@@ -23,9 +23,9 @@ export default function CardDeck({
     colSpan = 12,
     backgroundColor,
     cols = 2,
-    itemsPerPage = 8,
+    query,
+    setQuery,
 }: ICardDeckProps) {
-    const postsContext = useContext(PostsContext);
     const [posts, setPosts] = useState<IPost[]>([]);
     const [lastPage, setLastPage] = useState<number>();
 
@@ -38,8 +38,7 @@ export default function CardDeck({
             searchPhrase,
             categoryId,
         }: IPostsGetRequest = {
-            ...postsContext.pageQuery,
-            perPage: itemsPerPage,
+            ...query,
         };
         const queryString = `?page=${page}&perPage=${perPage}&sortyBy=${sortBy}&sortDirection=${sortDirection}&searchPhrase=${searchPhrase}&categoryId=${categoryId}`;
         fetch("api/posts" + queryString, {
@@ -57,29 +56,21 @@ export default function CardDeck({
 
     useEffect(() => {
         getPosts();
-    }, [postsContext]);
-
-    const updateQuery = (query: IPostsGetRequest) => {
-        console.log(query);
-        postsContext.setPageQuery(query);
-        getPosts();
-    };
+    }, [query]);
 
     const setPage = (newPage: number) => {
-        let newParams = postsContext.pageQuery;
+        let newParams = query;
         newParams.page = newPage;
-        postsContext.setPageQuery(newParams);
+        setQuery(newParams);
         getPosts();
     };
 
     const updateList = (newPosts: IPost[]) => {
         if (!newPosts || newPosts.length === 0) return;
-        if (!pagination && postsContext.pageQuery.page !== 1) {
-            console.log("posts extended");
+        if (!pagination && query.page !== 1) {
             const newPostList = [...posts, ...newPosts];
             setPosts(newPostList);
         } else {
-            console.log("posts replaced");
             setPosts(newPosts);
         }
     };
@@ -91,12 +82,7 @@ export default function CardDeck({
                     backgroundColor ? `bg-${backgroundColor}` : ""
                 } p-[24px]`}
             >
-                {/*
-                Commented out because refactoring needed to fix: carddeck on both pages would share the same context which causes unexpected behaviour
-                <SearchBar
-                    currentQuery={postsContext.pageQuery}
-                    setQuery={updateQuery}
-                /> */}
+                <SearchBar currentQuery={query} setQuery={setQuery} />
                 <div className="flex">
                     <div
                         className={`grid ${
@@ -112,12 +98,12 @@ export default function CardDeck({
                 {!pagination && (
                     <div className="flex">
                         <button
-                            disabled={postsContext.pageQuery.page === lastPage}
+                            disabled={query.page === lastPage}
                             type="button"
                             onClick={() =>
-                                postsContext.setPageQuery({
-                                    ...postsContext.pageQuery,
-                                    page: postsContext.pageQuery.page + 1,
+                                setQuery({
+                                    ...query,
+                                    page: query.page + 1,
                                 })
                             }
                             className="main mx-auto bg-[#F27623] mt-[114px]"
@@ -129,7 +115,7 @@ export default function CardDeck({
                 {pagination && (
                     <div className="flex mt-[24px]">
                         <Paginator
-                            currentPage={postsContext.pageQuery.page}
+                            currentPage={query.page}
                             lastPage={lastPage}
                             setPage={setPage}
                         />
